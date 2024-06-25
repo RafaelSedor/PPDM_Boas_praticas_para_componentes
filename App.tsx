@@ -1,20 +1,37 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { FlatList, Text, View, StyleSheet } from 'react-native';
+import CustomComponent from './src/components/CustomComponent';
+import Card from './src/components/Card';
+import { mockData } from './src/mocks/data';
 
-export default function App() {
+const App: React.FC = () => {
+  const handleButtonClick = () => {
+    alert('Button clicked!');
+  };
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
+      <CustomComponent title="My Custom Component" onButtonClick={handleButtonClick} />
+      <FlatList
+        data={mockData}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <Card>
+            <Card.Header>{item.name} - Header</Card.Header>
+            <Card.Body>{item.name} - Body</Card.Body>
+            <Card.Footer>{item.name} - Footer</Card.Footer>
+          </Card>
+        )}
+      />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    padding: 20,
   },
 });
+
+export default App;
